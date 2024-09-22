@@ -11,6 +11,9 @@
     "format": "prettier --write src/"
   },
   "dependencies": {
+    "bootstrap": "^5.1.0",
+    "bootstrap-vue": "^2.23.1",
+    "popper.js": "^1.16.1",
     "vue": "^3.4.29",
     "vue-router": "^4.3.3"
   },
