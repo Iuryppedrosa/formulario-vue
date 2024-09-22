@@ -33,11 +33,21 @@
             <label class="col-3 col-form-label">Gênero:</label>
             <div class="col">
               <div class="form-check form-check-inline">
-                <input class="form-check-input" type="radio" />
+                <input
+                  class="form-check-input"
+                  type="radio"
+                  :value="Number(1)"
+                  v-model="form.sexo"
+                />
                 <label class="form-check-label"> Feminino </label>
               </div>
               <div class="form-check form-check-inline">
-                <input class="form-check-input" type="radio" />
+                <input
+                  class="form-check-input"
+                  type="radio"
+                  v-bind:value="Number(2)"
+                  v-model="form.sexo"
+                />
                 <label class="form-check-label"> Masculino </label>
               </div>
             </div>
@@ -47,7 +57,13 @@
             <label class="col-3 col-form-label">Licença:</label>
             <div class="col">
               <div class="form-check form-switch">
-                <input class="form-check-input" type="checkbox" />
+                <input
+                  class="form-check-input"
+                  type="checkbox"
+                  v-model="form.licenca"
+                  true-value="SIM"
+                  false-value="NAO"
+                />
                 <label class="form-check-label">Li e aceito os termos</label>
               </div>
             </div>
@@ -57,19 +73,39 @@
             <label class="col-3 col-form-label">Interesses:</label>
             <div class="col">
               <div class="form-check">
-                <input class="form-check-input" type="checkbox" />
-                <label class="form-check-label"> JavaScriot </label>
+                <input
+                  class="form-check-input"
+                  type="checkbox"
+                  value="JavaScript"
+                  v-model="form.interesses"
+                />
+                <label class="form-check-label"> JavaScript </label>
               </div>
               <div class="form-check">
-                <input class="form-check-input" type="checkbox" />
+                <input
+                  class="form-check-input"
+                  type="checkbox"
+                  value="VueJS"
+                  v-model="form.interesses"
+                />
                 <label class="form-check-label"> VueJS </label>
               </div>
               <div class="form-check">
-                <input class="form-check-input" type="checkbox" />
+                <input
+                  class="form-check-input"
+                  type="checkbox"
+                  value="Angular"
+                  v-model="form.interesses"
+                />
                 <label class="form-check-label"> Angular </label>
               </div>
               <div class="form-check">
-                <input class="form-check-input" type="checkbox" />
+                <input
+                  class="form-check-input"
+                  type="checkbox"
+                  value="NodeJS"
+                  v-model="form.interesses"
+                />
                 <label class="form-check-label"> NodeJS </label>
               </div>
             </div>
@@ -168,13 +204,18 @@
           <spam>Idade: {{ form.idade }}</spam>
         </div>
         <div class="mb-3 row">
-          <spam>Gênero:</spam>
+          <spam>Gênero: {{ form.sexo }}</spam>
         </div>
         <div class="mb-3 row">
-          <spam>Licença:</spam>
+          <spam>Licença: {{ form.licenca }}</spam>
         </div>
         <div class="mb-3 row">
-          <spam>Interesses:</spam>
+          <spam
+            >Interesses:
+            <ul>
+              <li v-for="index in form.interesses" :key="index">{{ index }}</li>
+            </ul>
+          </spam>
         </div>
         <div class="mb-3 row">
           <spam>Telefone:</spam>
@@ -219,7 +260,10 @@ export default {
       nome: '',
       email: '',
       senha: '',
-      idade: ''
+      idade: '',
+      licenca: 'SIM',
+      interesses: [],
+      sexo: ''
     }
   })
 }
