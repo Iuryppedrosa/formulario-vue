@@ -13,8 +13,10 @@
   "dependencies": {
     "bootstrap": "^5.1.0",
     "bootstrap-vue": "^2.23.1",
+    "maska": "^3.0.2",
     "popper.js": "^1.16.1",
     "vue": "^3.4.29",
+    "vue-3-mask": "^0.0.1-alpha",
     "vue-router": "^4.3.3"
   },
   "devDependencies": {
