@@ -6,5 +6,5 @@ import App from './App.vue'
 import { MaskInput } from 'vue-3-mask'
 
 const app = createApp(App)
-app.component('MaskInput', MaskInput)
+app.component('MaskInput', MaskInput) // plugin
 app.mount('#app')

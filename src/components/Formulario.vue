@@ -200,43 +200,50 @@
           <div class="mb-3 row">
             <label class="col-3 col-form-label">Data:</label>
             <div class="col">
-              <input type="date" class="form-control" />
+              <input type="date" class="form-control" v-model="form.data" />
             </div>
           </div>
           <div class="mb-3 row">
             <label class="col-3 col-form-label">Data/hora local:</label>
             <div class="col">
-              <input type="datetime-local" class="form-control" />
+              <input type="datetime-local" class="form-control" v-model="form.dataHoraLocal" />
             </div>
           </div>
           <div class="mb-3 row">
             <label class="col-3 col-form-label">Mês:</label>
             <div class="col">
-              <input type="month" class="form-control" />
+              <input type="month" class="form-control" v-model="form.mes" />
             </div>
           </div>
           <div class="mb-3 row">
             <label class="col-3 col-form-label">Semana:</label>
             <div class="col">
-              <input type="week" class="form-control" />
+              <input type="week" class="form-control" v-model="form.semana" />
             </div>
           </div>
           <div class="mb-3 row">
             <label class="col-3 col-form-label">Hora:</label>
             <div class="col">
-              <input type="time" class="form-control" />
+              <input type="time" class="form-control" v-model="form.hora" />
             </div>
           </div>
           <div class="mb-3 row">
             <label class="col-3 col-form-label">Cor:</label>
             <div class="col">
-              <input type="color" class="form-color" />
+              <input type="color" class="form-color col-12" v-model="form.cor" />
             </div>
           </div>
           <div class="mb-3 row">
             <label class="col-3 col-form-label">Valor limite:</label>
             <div class="col">
-              <input type="range" class="form-range" min="0" max="100" step="1" />
+              <input
+                type="range"
+                class="form-range"
+                min="0"
+                max="255"
+                step="0.3"
+                v-model="form.alcance"
+              />
             </div>
           </div>
           <div class="mb-3 row">
@@ -262,7 +269,7 @@
         </form>
       </div>
 
-      <div class="col-6 text-white bg-secondary">
+      <div class="col-6" :style="{ backgroundColor: form.cor, color: computedFontColor }">
         <span class="fs-4">ESTADO DO OBJETO</span>
         <hr />
         <div class="mb-5 row">
@@ -322,31 +329,31 @@
           <span>RG: {{ form.RG }}</span>
         </div>
         <div class="mb-3 row">
-          <span>Data:</span>
+          <span>Data: {{ form.data }} -> {{ moment(form.data).format('DD-MM-YYYY') }}</span>
         </div>
         <div class="mb-3 row">
-          <span>Data/hora local:</span>
+          <span>Data/hora local: {{ form.dataHoraLocal }}</span>
         </div>
         <div class="mb-3 row">
-          <span>Mês:</span>
+          <span>Mês: {{ form.mes }}</span>
         </div>
         <div class="mb-3 row">
-          <span>Semana:</span>
+          <span>Semana: {{ form.semana }}</span>
         </div>
         <div class="mb-3 row">
-          <span>Hora:</span>
+          <span>Hora: {{ form.hora }}</span>
         </div>
         <div class="mb-3 row">
-          <span>Cor:</span>
+          <span>Cor: {{ form.cor }}</span>
         </div>
         <div class="mb-3 row">
-          <span>Valor limite:</span>
+          <span>Alcance: {{ form.alcance }} {{ computedFontColor }}</span>
         </div>
         <div class="mb-3 row">
           <span>Escondido:</span>
         </div>
         <div class="mb-3 row">
-          <span>Upload:</span>
+          <span>Upload: </span>
         </div>
       </div>
     </div>
@@ -355,6 +362,7 @@
 
 <script>
 import { MaskInput } from 'vue-3-mask'
+import moment from 'moment'
 
 export default {
   name: 'FormularioComponent',
@@ -362,6 +370,8 @@ export default {
     MaskInput
   },
   data: () => ({
+    moment: moment,
+    start: false,
     form: {
       nome: '',
       email: '',
@@ -377,8 +387,32 @@ export default {
       cartaoDeCredito: '',
       placaVeiculo: '',
       placaVeiculoMercoSul: '',
-      RG: ''
+      RG: '',
+      data: '',
+      dataHoraLocal: '',
+      mes: '',
+      semana: '',
+      hora: '',
+      cor: '#999999',
+      alcance: 5
     }
-  })
+  }),
+  created() {
+    this.moment = moment
+
+    // this.form.data = this.moment().format('YYYY-MM-DD')
+    // this.form.dataHoraLocal = this.moment().format('YYYY-MM-DDTHH:mm')
+    // this.form.mes = this.moment().format('YYYY-MM')
+    // this.form.semana = this.moment().format('YYYY-WW')
+    // this.form.hora =,
+    this.moment().format('HH:mm')
+  },
+  computed: {
+    computedFontColor() {
+      const alcance = this.form.alcance
+      const adjustedValue = Math.min(alcance * 10, 255) // Ajuste para limitar entre 0-255
+      return `rgba(${adjustedValue}, ${adjustedValue}, ${adjustedValue}, 1)`
+    }
+  }
 }
 </script>
