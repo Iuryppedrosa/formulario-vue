@@ -247,15 +247,44 @@
             </div>
           </div>
           <div class="mb-3 row">
+            <div class="col-2 btn btn-primary" @click="mostrar()">Show</div>
             <label class="col-3 col-form-label">Escondido:</label>
+
             <div class="col">
-              <input type="hidden" class="form-control" />
+              <input
+                :type="show ? 'text' : 'hidden'"
+                class="form-control"
+                v-model="form.escondido"
+              />
             </div>
           </div>
           <div class="mb-3 row">
             <label class="col-3 col-form-label">Upload:</label>
             <div class="col">
-              <input type="file" class="form-control" />
+              <input
+                type="file"
+                class="form-control"
+                multiple
+                @change="selecionarArquivos($event)"
+              />
+            </div>
+            <!-- Caso nao passe o () na chamado do metodo, o event seria colocado automaticamente -->
+          </div>
+          <div class="mb-3 row">
+            <label class="col-3 col-form-label">Descricao:</label>
+            <div class="col">
+              <textarea class="form-control" rows="3" v-model="form.descricao"></textarea>
+            </div>
+          </div>
+          <div class="mb-3 row">
+            <label class="col-3 col-form-label">Cursos:</label>
+            <div class="col">
+              <select class="form-select" v-model="form.curso">
+                <option value=""></option>
+                <option v-for="curso in cursos" :key="curso.id" :value="curso.id">
+                  {{ curso.name }}
+                </option>
+              </select>
             </div>
           </div>
           <hr />
@@ -350,10 +379,21 @@
           <span>Alcance: {{ form.alcance }} {{ computedFontColor }}</span>
         </div>
         <div class="mb-3 row">
-          <span>Escondido:</span>
+          <span>Escondido: {{ form.escondido }}</span>
         </div>
         <div class="mb-3 row">
-          <span>Upload: </span>
+          <span>Arquivos:</span>
+          <ul>
+            <li v-for="index in form.arquivo" :key="index.name">{{ index.name }}</li>
+          </ul>
+        </div>
+        <div>
+          <span>Descricao:</span>
+          <pre>{{ form.descricao }}</pre>
+        </div>
+        <div>
+          <span>Cursos:</span>
+          {{ form.curso }}
         </div>
       </div>
     </div>
@@ -372,6 +412,12 @@ export default {
   data: () => ({
     moment: moment,
     start: false,
+    cursos: [
+      { id: 1, name: 'JavaScript' },
+      { id: 2, name: 'VueJS' },
+      { id: 3, name: 'Angular' },
+      { id: 4, name: 'NodeJS' }
+    ],
     form: {
       nome: '',
       email: '',
@@ -394,8 +440,13 @@ export default {
       semana: '',
       hora: '',
       cor: '#999999',
-      alcance: 5
-    }
+      alcance: 5,
+      escondido: '',
+      arquivo: [],
+      descricao: '',
+      curso: ''
+    },
+    show: true
   }),
   created() {
     this.moment = moment
@@ -406,6 +457,15 @@ export default {
     // this.form.semana = this.moment().format('YYYY-WW')
     // this.form.hora =,
     this.moment().format('HH:mm')
+  },
+  methods: {
+    mostrar() {
+      this.show = !this.show
+      this.form.escondido = this.show ? 'Input Aparecendo' : 'Input Escondido'
+    },
+    selecionarArquivos(event) {
+      this.form.arquivo = event.target.files
+    }
   },
   computed: {
     computedFontColor() {
