@@ -4,7 +4,7 @@
       <div class="col-6 bg-light">
         <span class="fs-4">ENTRADA DE DADOS</span>
         <hr />
-        <form>
+        <form @submit.prevent="enviar($event)" @reset.prevent="limpar()">
           <div class="mb-3 row">
             <label class="col-3 col-form-label">Nome:</label>
             <div class="col">
@@ -287,11 +287,18 @@
               </select>
             </div>
           </div>
+          <div class="mb-3 row">
+            <label class="col-3 col-form-label">Avaliacao:</label>
+            <div class="col">
+              <input-estrelas :numero-estrelas="Number(2)" />
+            </div>
+          </div>
           <hr />
           <div class="mb-3 row">
             <div class="col d-flex justify-content-between">
+              <!-- type="reset" >> usado para dar reset no form, mas nao limpa os campos -->
               <button class="btn btn-secondary" type="reset">Limpar</button>
-              <button class="btn btn-success" type="button">Enviar (btn)</button>
+              <button class="btn btn-success" type="button" @click="enviar2()">Enviar (btn)</button>
               <button class="btn btn-success" type="submit">Enviar (submit)</button>
             </div>
           </div>
@@ -343,7 +350,7 @@
           <span>CPF: {{ form.cpf }}</span>
         </div>
         <div class="mb-3 row">
-          <span>CPNJ: {{ form.cnpj }}</span>
+          <span>CPNJ: {{ form.cnpj }} </span>
         </div>
         <div class="mb-3 row">
           <span>Cartao de Credito: {{ form.cartaoDeCredito }}</span>
@@ -403,11 +410,13 @@
 <script>
 import { MaskInput } from 'vue-3-mask'
 import moment from 'moment'
+import InputEstrelas from './InputEstrelas.vue'
 
 export default {
   name: 'FormularioComponent',
   components: {
-    MaskInput
+    MaskInput,
+    InputEstrelas
   },
   data: () => ({
     moment: moment,
@@ -465,6 +474,18 @@ export default {
     },
     selecionarArquivos(event) {
       this.form.arquivo = event.target.files
+    },
+    enviar(e) {
+      console.log(e)
+
+      const formEnvio = Object.assign({}, this.form)
+      console.log(formEnvio)
+    },
+    enviar2() {
+      alert('Para mudar para button, basta aplicar @click no form... e nao precisa da tag form')
+    },
+    limpar() {
+      this.form = {}
     }
   },
   computed: {
