@@ -1,6 +1,11 @@
 <template>
   <div>
-    <i v-for="estrela in estrelas" :key="estrela.id" :class="estrela.estilo"></i>
+    <i
+      v-for="estrela in estrelas"
+      :key="estrela.id"
+      :class="estrela.estilo"
+      @click="marcarAvalicao(estrela.id + 1)"
+    ></i>
   </div>
 </template>
 <script>
@@ -15,7 +20,8 @@ export default {
   },
   data: () => {
     return {
-      estrelas: []
+      estrelas: [],
+      avaliacao: 0
     }
   },
   created() {
@@ -29,6 +35,15 @@ export default {
           estilo: 'bi-star estrela'
         }
       }
+    },
+    marcarAvalicao(e) {
+      this.iniciarEstrelas()
+      this.avaliacao = e
+      for (let i = 0; i < this.avaliacao; i++) {
+        this.estrelas[i].estilo = 'bi-star-fill estrela'
+      }
+      this.$emit('avaliar', this.avaliacao)
+      this.emitter.emit('avaliar2', this.avaliacao)
     }
   }
 }

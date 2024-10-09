@@ -290,7 +290,11 @@
           <div class="mb-3 row">
             <label class="col-3 col-form-label">Avaliacao:</label>
             <div class="col">
-              <input-estrelas :numero-estrelas="Number(2)" />
+              <input-estrelas
+                :numero-estrelas="Number(5)"
+                @avaliar="form.avaliacao = $event"
+                @clik="dobrada()"
+              />
             </div>
           </div>
           <hr />
@@ -311,7 +315,6 @@
         <div class="mb-5 row">
           <span>{{ form }}</span>
         </div>
-
         <span class="fs-4">SAÍDA DE DADOS</span>
         <hr />
         <div class="mb-3 row">
@@ -394,13 +397,19 @@
             <li v-for="index in form.arquivo" :key="index.name">{{ index.name }}</li>
           </ul>
         </div>
-        <div>
+        <div class="mb-3 row">
           <span>Descricao:</span>
           <pre>{{ form.descricao }}</pre>
         </div>
-        <div>
+        <div class="mb-3 row">
           <span>Cursos:</span>
           {{ form.curso }}
+        </div>
+        <div class="mb-3 row">
+          <span>Avaliacao: {{ form.avaliacao }}</span>
+        </div>
+        <div class="mb-3 row">
+          <span>Avaliacao DOBRADA: {{ form.avaliacaoDobrada }}</span>
         </div>
       </div>
     </div>
@@ -453,7 +462,9 @@ export default {
       escondido: '',
       arquivo: [],
       descricao: '',
-      curso: ''
+      curso: '',
+      avaliacao: 0,
+      avaliacaoDobrada: 0
     },
     show: true
   }),
@@ -486,6 +497,12 @@ export default {
     },
     limpar() {
       this.form = {}
+    },
+    dobrada() {
+      console.log('dobrada')
+      this.emitter.on('avaliar2', (e) => {
+        this.form.avaliacaoDobrada = e * 2
+      })
     }
   },
   computed: {
