@@ -290,11 +290,7 @@
           <div class="mb-3 row">
             <label class="col-3 col-form-label">Avaliacao:</label>
             <div class="col">
-              <input-estrelas
-                :numero-estrelas="Number(5)"
-                @avaliar="form.avaliacao = $event"
-                @clik="dobrada()"
-              />
+              <input-estrelas :numero-estrelas="Number(5)" @avaliar="form.avaliacao = $event" />
             </div>
           </div>
           <hr />
@@ -408,9 +404,6 @@
         <div class="mb-3 row">
           <span>Avaliacao: {{ form.avaliacao }}</span>
         </div>
-        <div class="mb-3 row">
-          <span>Avaliacao DOBRADA: {{ form.avaliacaoDobrada }}</span>
-        </div>
       </div>
     </div>
   </div>
@@ -463,8 +456,7 @@ export default {
       arquivo: [],
       descricao: '',
       curso: '',
-      avaliacao: 0,
-      avaliacaoDobrada: 0
+      avaliacao: 0
     },
     show: true
   }),
@@ -497,12 +489,6 @@ export default {
     },
     limpar() {
       this.form = {}
-    },
-    dobrada() {
-      console.log('dobrada')
-      this.emitter.on('avaliar2', (e) => {
-        this.form.avaliacaoDobrada = e * 2
-      })
     }
   },
   computed: {

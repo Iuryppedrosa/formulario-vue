@@ -43,7 +43,6 @@ export default {
         this.estrelas[i].estilo = 'bi-star-fill estrela'
       }
       this.$emit('avaliar', this.avaliacao)
-      this.emitter.emit('avaliar2', this.avaliacao)
     }
   }
 }
